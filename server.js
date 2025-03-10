@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
+const authController = require("/.controllers/auth");
 
 // initialize express app
 const app = express();
@@ -26,9 +27,14 @@ app.use(methodOverride("_method"));
 // Morgan for logging HTTP requests
 app.use(morgan('dev'));
 
+app.use("/auth", authController);
+// any HTTP request from browser that comes to/ auth...
+// will automatically be forward to the router code
+// inside of the authController
+
 // mount routes
 app.get('/', (req, res) => {
-  res.send('index.ejs');
+  res.render('index.ejs');
 });
 
 // tells the app the listen for HTTP requests 
